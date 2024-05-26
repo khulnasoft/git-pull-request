@@ -1,0 +1,60 @@
+extends: .github
+shared:
+  DefaultQueueOptions: &DefaultQueueOptions
+    commit_message_template: |
+      {{ title }} (#{{ number }})
+
+      {{ body }}
+    allow_inplace_checks: true
+    merge_method: squash
+    speculative_checks: 5
+
+  CheckRuns: &CheckRuns
+    - check-success=tox (3.8, py38)
+    - check-success=tox (3.9, py39)
+    - check-success=tox (3.10, py310)
+    - check-success=tox (3.11, py311)
+    - check-success=tox (3.12, py312)
+    - check-success=tox (3.12, pep8)
+
+queue_rules:
+  - name: default
+    <<: *DefaultQueueOptions
+    queue_conditions:
+      - and: *CheckRuns
+      - "check-success=Rule: Conventional Commit (post_check)"
+      - or:
+          - "#approved-reviews-by>=1"
+          - label=no-review-needed
+      - "#changes-requested-reviews-by=0"
+      - "#commits=1"
+      - label!=work-in-progress
+      - label!=manual merge
+    merge_conditions:
+      - and: *CheckRuns
+
+  - name: lowprio
+    <<: *DefaultQueueOptions
+    queue_conditions:
+      - and: *CheckRuns
+      - "#commits=1"
+      - author=dependabot[bot]
+    merge_method: merge
+    merge_conditions:
+      - and: *CheckRuns
+    speculative_checks: 1
+    batch_size: 7
+    batch_max_wait_time: 5min
+    commit_message_template: null
+    queue_branch_merge_method: fast-forward
+    disallow_checks_interruption_from_queues:
+      - default
+
+pull_request_rules:
+  - name: automatic merge
+    conditions:
+      - base=main
+      - "check-success=Rule: Conventional Commit (post_check)"
+      - label!=manual merge
+    actions:
+      queue:
