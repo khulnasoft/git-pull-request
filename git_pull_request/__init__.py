@@ -709,7 +709,7 @@ def fork_and_push_pull_request(
                 if dry_run:
                     LOG.info('Would comment: "%s"', comment)
                 else:
-                    # FIXME(jd) we should be able to comment directly on a PR
+                    # FIXME(nxpkg) we should be able to comment directly on a PR
                     # without getting it as an issue but pygithub does not
                     # allow that yet
                     repo_to_fork.get_issue(pull.number).create_comment(comment)

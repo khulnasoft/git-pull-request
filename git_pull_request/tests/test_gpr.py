@@ -48,29 +48,29 @@ class BaseTestGitRepo(fixtures.TestWithFixtures):
 class TestStuff(BaseTestGitRepo):
     def test_get_repository_id_from_url(self):
         self.assertEqual(
-            ("github", "github.com", "jd", "git-pull-request"),
+            ("github", "github.com", "nxpkg", "git-pull-request"),
             attr.astuple(
                 gpr.get_repository_id_from_url(
-                    "https://github.com/khulnasoft/git-pull-request.git"
+                    "https://github.com/nxpkg/git-pull-request.git"
                 )
             ),
         )
         self.assertEqual(
-            ("github", "github.com", "jd", "git-pull-request"),
+            ("github", "github.com", "nxpkg", "git-pull-request"),
             attr.astuple(
                 gpr.get_repository_id_from_url("git@github.com:khulnasoft/git-pull-request.git")
             ),
         )
         self.assertEqual(
-            ("github", "github.com", "jd", "git-pull-request"),
+            ("github", "github.com", "nxpkg", "git-pull-request"),
             attr.astuple(
                 gpr.get_repository_id_from_url(
-                    "git://github.com/khulnasoft/git-pull-request.git"
+                    "git://github.com/nxpkg/git-pull-request.git"
                 )
             ),
         )
         self.assertEqual(
-            ("github", "example.com", "jd", "git-pull-request"),
+            ("github", "example.com", "nxpkg", "git-pull-request"),
             attr.astuple(
                 gpr.get_repository_id_from_url(
                     "https://example.com/khulnasoft/git-pull-request.git"
@@ -78,13 +78,13 @@ class TestStuff(BaseTestGitRepo):
             ),
         )
         self.assertEqual(
-            ("github", "github.com", "jd", "git-pull-request"),
+            ("github", "github.com", "nxpkg", "git-pull-request"),
             attr.astuple(
                 gpr.get_repository_id_from_url("git@github.com:khulnasoft/git-pull-request")
             ),
         )
         self.assertEqual(
-            ("github", "example.com", "jd", "git-pull-request"),
+            ("github", "example.com", "nxpkg", "git-pull-request"),
             attr.astuple(
                 gpr.get_repository_id_from_url(
                     "https://example.com/khulnasoft/git-pull-request"
@@ -92,7 +92,7 @@ class TestStuff(BaseTestGitRepo):
             ),
         )
         self.assertEqual(
-            ("github", "example.com:2222", "jd", "git-pull-request"),
+            ("github", "example.com:2222", "nxpkg", "git-pull-request"),
             attr.astuple(
                 gpr.get_repository_id_from_url(
                     "ssh://git@example.com:2222/khulnasoft/git-pull-request"
@@ -135,7 +135,7 @@ class TestGitCommand(fixtures.TestWithFixtures):
                 "remote",
                 "add",
                 "origin",
-                "https://github.com/khulnasoft/git-pull-request.git",
+                "https://github.com/nxpkg/git-pull-request.git",
             ]
         )
         gpr._run_shell_command(
@@ -160,7 +160,7 @@ class TestGitCommand(fixtures.TestWithFixtures):
     def test_git_remote_matching_url(self):
         self.assertEqual(
             "origin",
-            gpr.git_remote_matching_url("https://github.com/khulnasoft/git-pull-request.git"),
+            gpr.git_remote_matching_url("https://github.com/nxpkg/git-pull-request.git"),
         )
         self.assertEqual(
             "fork",
@@ -227,7 +227,7 @@ class TestGithubPRTemplate(fixtures.TestWithFixtures):
                 "remote",
                 "add",
                 "origin",
-                "https://github.com/khulnasoft/git-pull-request.git",
+                "https://github.com/nxpkg/git-pull-request.git",
             ]
         )
         gpr._run_shell_command(
@@ -382,7 +382,7 @@ class TestExceptionFormatting(unittest.TestCase):
 
 class TestGithubHostnameUserRepoFromUrl(BaseTestGitRepo):
     def test_git_clone_url(self):
-        expected = gpr.RepositoryId("github", "example.com", "jd", "git-pull-request")
+        expected = gpr.RepositoryId("github", "example.com", "nxpkg", "git-pull-request")
 
         self.assertEqual(
             expected,
@@ -413,7 +413,7 @@ class TestGitConfig(fixtures.TestWithFixtures):
                 "remote",
                 "add",
                 "origin",
-                "https://github.com/khulnasoft/git-pull-request.git",
+                "https://github.com/nxpkg/git-pull-request.git",
             ]
         )
         gpr._run_shell_command(
